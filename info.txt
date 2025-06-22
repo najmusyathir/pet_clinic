@@ -1,0 +1,66 @@
+use cases:
+1. register acc
+--
+
+
+## =======================================
+
+ERD:
+
+1. users
+- id
+- fullname
+- role (veterinarian, staff, customer)
+- email
+- phone
+- password
+
+2. pets
+- id
+- name
+- owner_id (FK → users.id)
+
+3. medical_histories
+- id
+- pet_id (FK → pets.id)
+- visit_date
+- symptoms
+- diagnosis
+- treatment
+- vet_notes
+- created_by (FK → users.id)
+- timestamp
+
+4. products_services
+- id
+- name
+- type (product/service)
+- description
+- price
+- availability
+
+5. appointments
+- id
+- customer_id (FK → users.id)
+- pet_id (FK → pets.id)
+- date
+- time
+- reason
+- status (pending, accepted, rejected)
+
+6. appointment_services
+- id
+- appointment_id (FK → appointments.id)
+- product_service_id (FK → products_services.id)
+
+7. vaccinations
+- id
+- pet_id (FK → pets.id)
+- vaccine_name
+- date_given
+- next_due_date
+
+
+# ===========================================================
+
+
