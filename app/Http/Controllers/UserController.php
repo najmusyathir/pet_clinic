@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -28,7 +28,26 @@ class UserController extends Controller
             'role' => $request->role
         ]);
 
-        return redirect()->route('users')->with('success','');
+        return redirect()->route('users')->with('success', '');
     }
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+        }
+        return redirect()->route('users')->with('success', '');
+    }
+
+    public function resetPassword($id)
+    {
+        $user = User::findOrFail($id);
+        $user->password = Hash::make('password123');
+        $user->save();
+
+        return redirect()->route('users')->with('success', 'Password reset to password123.');
+    }
+
 
 }

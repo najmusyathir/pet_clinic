@@ -31,7 +31,7 @@
 
         <!-- Page Content -->
         <main class="flex flex-1">
-            <div class="w-64 bg-white/30 backdrop-blur-md border-r border-white/20 shadow-lg ">
+            <div class="w-80 bg-white/30 backdrop-blur-md border-r border-white/20 shadow-lg ">
                 <x-drawer />
             </div>
             <div class="flex-1">
