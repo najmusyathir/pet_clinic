@@ -14,6 +14,7 @@
             </a>
             <a href="{{ route('profile.edit') }}"
                 class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Settings</a>
+
             {{-- <a href="{{ route('appointments.index') }}" class="hover:text-[#261d44] transition">Appointments</a>
             <a href="{{ route('pets.index') }}" class="hover:text-[#261d44] transition">My Pets</a>
             <a href="{{ route('medical.index') }}" class="hover:text-[#261d44] transition">Medical History</a>

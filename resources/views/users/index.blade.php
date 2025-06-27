@@ -12,6 +12,7 @@
                     <div class="overflow-x-auto">
                         <table
                             class="min-w-full border border-gray-200 divide-y divide-gray-200 shadow-sm rounded-lg py-1">
+
                             <thead class="bg-gray-100">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Full Name</th>

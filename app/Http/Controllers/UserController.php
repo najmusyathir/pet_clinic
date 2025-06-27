@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
+
 class UserController extends Controller
 {
     public function index()
@@ -48,6 +49,4 @@ class UserController extends Controller
 
         return redirect()->route('users')->with('success', 'Password reset to password123.');
     }
-
-
 }
