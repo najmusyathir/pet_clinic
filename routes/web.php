@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PetController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,4 +27,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/user/{id}/delete', [UserController::class, 'destroy'])->name('user.destroy');
     Route::put('/user/{id}/reset-password', [UserController::class, 'resetPassword'])->name('user.resetPassword');
 });
+
+// Pets related route
+Route::middleware('auth')->group(function () {
+    Route::get('/pet', [PetController::class, 'index'])->name(name: 'pets');
+    Route::get('/add', [PetController::class, 'addPage'])->name('pet.add');
+    Route::post('/create', [PetController::class, 'create'])->name('pet.create');
+    Route::get('/pet/update/{id}', [PetController::class, 'detail'])->name('pet.detail');
+    Route::put('/pet/{id}/update', [PetController::class, 'update'])->name('pet.update');
+    Route::delete('/pet/{id}/delete', [PetController::class, 'destroy'])->name('pet.destroy');
+});
+
 require __DIR__ . '/auth.php';

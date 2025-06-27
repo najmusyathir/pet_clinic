@@ -8,6 +8,10 @@
             @if (auth()->user()->role == 'veterinar') <a href="{{ route('users') }}"
                 class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Users</a>
             @endif
+
+            <a href="{{ route('pets') }}" class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">
+                {{ auth()->user()->role == 'customer' ? __('My ') : '' }}{{ __('Pets') }}
+            </a>
             <a href="{{ route('profile.edit') }}"
                 class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Settings</a>
             {{-- <a href="{{ route('appointments.index') }}" class="hover:text-[#261d44] transition">Appointments</a>

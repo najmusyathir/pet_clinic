@@ -17,8 +17,12 @@ ERD:
 
 2. pets
 - id
+- type
 - name
+- gender
+- birth_date
 - owner_id (FK → users.id)
+
 
 3. medical_histories
 - id
@@ -47,6 +51,18 @@ ERD:
 - time
 - reason
 - status (pending, accepted, rejected)
+=========================================
+- id (PK)
+- user_id (FK → users)
+- pet_id (FK → pets)
+- appointment_date (DATE)
+- appointment_time (TIME)
+- reason (TEXT or VARCHAR)
+- status (ENUM: pending, accepted, rejected)
+- notes (TEXT) — optional, for vet/staff
+- created_at, updated_at (timestamps)
+
+
 
 6. appointment_services
 - id
@@ -62,5 +78,76 @@ ERD:
 
 
 # ===========================================================
+
+USER ROLES
+
+Customer:
+- Register & login #
+- Manage own profile #
+- Manage own pets #
+- View pet’s growth & medical history
+- Book appointments
+- View appointment status
+- View selected services
+- Order products (assumed, not confirmed)
+
+Vet:
+- Login #
+- Manage own profile #
+- View customer info & pets #
+- Add/edit/delete pet medical history
+- View appointments
+- Update appointment status (diagnosis, treatment, notes)
+
+Clinic Staff:
+- Register (admin approved) & login #
+- Manage own profile
+- Manage customer accounts (update/delete)
+- Manage products (add/edit/delete)
+- Manage services (add/edit/delete)
+- View all customers & their pets
+- View/manage all appointments
+- Approve/reject appointment requests
+- Manage pet medical history
+- Handle product orders (if ordering is confirmed)
+
+ENTITIES & ACTIONS
+
+Pets:
+- Add/edit/delete (by customers)
+- View pet profile
+- Linked to user
+- Linked to appointments
+- Track growth data
+- Linked to medical records
+
+Appointments:
+- Book (by customer)
+- View/manage (by staff & vet)
+- Linked to pet & user
+- Linked to services
+- Set status: pending, accepted, rejected
+- Add vet notes
+
+Services:
+- Add/edit/delete (staff only)
+- Viewable by customers when booking
+- Linked to appointments
+
+Products:
+- Add/edit/delete (staff only)
+- Viewable to customers
+- Can be ordered (assumed)
+- Linked to orders (if implemented)
+
+Orders (not confirmed in proposal):
+- Place product order (customer)
+- View/manage orders (staff)
+- Track status (optional)
+
+NOTE:
+- Ordering flow is not defined in client proposal.
+- Recommend confirming if product purchase feature is needed.
+
 
 
