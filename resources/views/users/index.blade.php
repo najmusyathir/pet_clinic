@@ -10,7 +10,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="overflow-x-auto">
-                        <table class="min-w-full border border-gray-200 divide-y divide-gray-200 shadow-sm rounded-lg py-1">
+                        <table
+                            class="min-w-full border border-gray-200 divide-y divide-gray-200 shadow-sm rounded-lg py-1">
+
                             <thead class="bg-gray-100">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Full Name</th>
@@ -28,10 +30,17 @@
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $user->email }}</td>
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $user->role }}</td>
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $user->phone }}</td>
-                                            <td class="px-6 py-4">
+                                            <td class="px-6 py-4 flex gap-3 flex-wrap">
                                                 <a href="{{ route('user.detail', $user->id) }}">
                                                     <x-primary-button>Edit</x-primary-button>
                                                 </a>
+
+                                                <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                                                    onsubmit="return confirm('Are you sure?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <x-danger-button>Delete</x-danger-button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endif

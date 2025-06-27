@@ -6,10 +6,9 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl space-y-6 gap-6 mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-400 max-w-3xl">
-
                     <form method="POST" action="{{ route('user.updateRole', $user->id) }}">
                         @method('PUT')
                         @csrf
@@ -34,7 +33,9 @@
                         <div class="mt-4">
                             <x-input-label for="email" :value="__('Email')" />
                             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
-                                :value="old('email')" required autocomplete="email" value='{{ $user->email }}' disabled />
+                                :value="old('email')" required autocomplete="email" value='{{ $user->email }}'
+                                disabled />
+
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
 
@@ -60,8 +61,21 @@
                         </div>
                     </form>
                 </div>
+            </div>
 
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-400 max-w-3xl space-y-2">
+                    <x-input-label :value="__('Reset password for this user?')" />
+
+                    <form action="{{ route('user.resetPassword', $user->id) }}" method="POST"
+                        onsubmit="return confirm('Confrm reset password to default? (password123)')">
+                        @csrf
+                        @method('PUT')
+                        <x-danger-button>Reset Password</x-danger-button>
+                    </form>
+                </div>
             </div>
         </div>
+
     </div>
 </x-app-layout>
