@@ -12,14 +12,10 @@
             <a href="{{ route('pets') }}" class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">
                 {{ auth()->user()->role == 'customer' ? __('My ') : '' }}{{ __('Pets') }}
             </a>
+            <a href="{{ route('appointments') }}"
+                class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Appointments</a>
             <a href="{{ route('profile.edit') }}"
                 class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Settings</a>
-
-            {{-- <a href="{{ route('appointments.index') }}" class="hover:text-[#261d44] transition">Appointments</a>
-            <a href="{{ route('pets.index') }}" class="hover:text-[#261d44] transition">My Pets</a>
-            <a href="{{ route('medical.index') }}" class="hover:text-[#261d44] transition">Medical History</a>
-            <a href="{{ route('products.index') }}" class="hover:text-[#261d44] transition">Products & Services</a>
-            <a href="{{ route('profile.edit') }}" class="hover:text-[#261d44] transition">Profile</a> --}}
         </nav>
     </div>
 </aside>
