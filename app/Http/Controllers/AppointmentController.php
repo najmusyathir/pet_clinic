@@ -11,13 +11,7 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role == "veterinar") {
-            $appointments = Appointment::all();
-        } else {
-            $appointments = Appointment::all();
-
-            // $appointments = Appointment::where("customer_id", auth()->user()->id)->get();
-        }
+        $appointments = auth()->user()->role != "customer" ? Appointment::all() : Appointment::where("customer_id", auth()->user()->id)->get();
         return view("appointments.index", compact('appointments'));
     }
 
