@@ -14,6 +14,8 @@
             </a>
             <a href="{{ route('appointments') }}"
                 class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Appointments</a>
+            <a href="{{ route('histories') }}"
+                class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Appointment History</a>
             <a href="{{ route('profile.edit') }}"
                 class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Settings</a>
         </nav>

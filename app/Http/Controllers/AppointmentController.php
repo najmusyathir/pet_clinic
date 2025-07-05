@@ -11,9 +11,13 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = auth()->user()->role != "customer" ? Appointment::all() : Appointment::where("customer_id", auth()->user()->id)->get();
+        $appointments = auth()->user()->role != "customer"
+            ? Appointment::where('status', '!=', 'completed')->get()
+            : Appointment::where("customer_id", auth()->user()->id)->where('status', '!=', 'completed')->get();
+
         return view("appointments.index", compact('appointments'));
     }
+
 
     public function addPage()
     {

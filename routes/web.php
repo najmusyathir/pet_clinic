@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\HistoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,6 +49,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/appointment/update/{id}', [AppointmentController::class, 'update'])->name('appointment.update');
     Route::put('/appointment/cancel/{id}', [AppointmentController::class, 'cancel'])->name('appointment.cancel');
     Route::delete('/appointment/delete/{id}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
+});
+
+// Appointment History related route
+Route::middleware('auth')->group(function () {
+    Route::get('/history', [HistoryController::class, 'index'])->name(name: 'histories');
+    Route::get('/history/{id}', [HistoryController::class, 'detail'])->name('history.detail');
 });
 
 require __DIR__ . '/auth.php';
