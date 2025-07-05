@@ -13,10 +13,11 @@
                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                     {{ auth()->user()->role == 'customer' ? __('My ') : '' }}{{ __('Pets') }}
                 </h2>
-
-                <a href="{{route('pet.add')}}">
-                    <x-primary-button>Add Pet</x-primary-button>
-                </a>
+                @if (auth()->user()->role == 'customer')
+                    <a href="{{route('pet.add')}}">
+                        <x-primary-button>Add Pet</x-primary-button>
+                    </a>
+                @endif
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 space-y-5">

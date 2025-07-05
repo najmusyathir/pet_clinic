@@ -14,9 +14,11 @@
                     {{ auth()->user()->role == 'customer' ? __('My ') : '' }}{{ __('Appointments') }}
                 </h2>
 
-                <a href="{{route('appointment.add')}}">
-                    <x-primary-button>Add Appointment</x-primary-button>
-                </a>
+                @if (auth()->user()->role == 'customer')
+                    <a href="{{route('appointment.add')}}">
+                        <x-primary-button>Add Appointment</x-primary-button>
+                    </a>
+                @endif
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 space-y-5">
