@@ -9,14 +9,32 @@ use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-    public function index()
-    {
-        $appointments = auth()->user()->role != "customer"
-            ? Appointment::where('status', '!=', 'completed')->get()
-            : Appointment::where("customer_id", auth()->user()->id)->where('status', '!=', 'completed')->get();
+public function index(Request $request)
+{
+    $statusFilter = $request->get('status');
 
-        return view("appointments.index", compact('appointments'));
+    $query = Appointment::query();
+
+    if (auth()->user()->role !== "customer") {
+        $query->when($statusFilter, function ($q) use ($statusFilter) {
+            return $q->where('status', $statusFilter);
+        }, function ($q) {
+            return $q->where('status', '!=', 'Completed');
+        });
+    } else {
+        $query->where("customer_id", auth()->user()->id)
+            ->when($statusFilter, function ($q) use ($statusFilter) {
+                return $q->where('status', $statusFilter);
+            }, function ($q) {
+                return $q->where('status', '!=', 'Completed');
+            });
     }
+
+    $appointments = $query->with(['customer', 'pet', 'staff'])->get();
+
+    return view("appointments.index", compact('appointments', 'statusFilter'));
+}
+
 
 
     public function addPage()
