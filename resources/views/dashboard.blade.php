@@ -17,6 +17,7 @@
                     </div>
                     <div class="bg-white shadow rounded-lg p-4">
                         <h3 class="text-gray-600 text-sm">Total Revenue</h3>
+                        <p class="text-xs text-gray-500 mb-1">Includes treatment fees + services</p>
                         <p class="text-2xl font-bold">RM {{ number_format($totalRevenue, 2) }}</p>
                     </div>
                     <div class="bg-white shadow rounded-lg p-4">
@@ -33,7 +34,7 @@
 
                 {{-- Services Table --}}
                 <div class="bg-white shadow rounded-lg p-6">
-                    <h3 class="text-lg font-medium mb-4">Service Summary</h3>
+                    <h3 class="text-lg font-medium mb-4">Service Revenue Breakdown</h3>
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead>
                             <tr>
@@ -56,6 +57,34 @@
                 </div>
 
             </div>
+
+            {{-- Chart Script --}}
+            @if (auth()->user()->role != 'customer')
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    const ctx = document.getElementById('appointmentChart').getContext('2d');
+                    const appointmentChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: @json($chartLabels),
+                            datasets: [{
+                                label: 'Appointments',
+                                data: @json($chartData),
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                tension: 0.4,
+                                fill: false,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                </script>
+            @endif
+
 
         @else
 

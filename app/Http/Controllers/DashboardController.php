@@ -27,12 +27,13 @@ class DashboardController extends Controller
         $appointments = Appointment::with('service')->get();
 
         $totalAppointments = $appointments->count();
-        $totalRevenue = 0;
+        $totalRevenue = $appointments->sum('price'); // Treatment price total
         $serviceCounts = [];
 
         foreach ($appointments as $appointment) {
             foreach ($appointment->service as $s) {
                 $totalRevenue += $s->price ?? 0;
+
                 if (!isset($serviceCounts[$s->name])) {
                     $serviceCounts[$s->name] = [
                         'name' => $s->name,
@@ -40,6 +41,7 @@ class DashboardController extends Controller
                         'revenue' => 0,
                     ];
                 }
+
                 $serviceCounts[$s->name]['count']++;
                 $serviceCounts[$s->name]['revenue'] += $s->price ?? 0;
             }
