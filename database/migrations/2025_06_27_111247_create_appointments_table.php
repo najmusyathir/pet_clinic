@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('customer_id')->constrained('users');
             $table->foreignId('pet_id')->constrained('pets');
-            $table->foreignId('staff_id')->constrained('users')->nullable();
+            $table->foreignId('staff_id')->nullable()->constrained('users');
             $table->date('appointment_date');
             $table->time('appointment_time');
             $table->text('remarks')->nullable();
