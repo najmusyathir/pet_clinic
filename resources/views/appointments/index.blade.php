@@ -61,16 +61,20 @@
 
                                             <td class="px-6 py-4 flex gap-2">
                                                 <a href="{{ route('appointment.detail', $appointment->id) }}">
-                                                    <x-primary-button>Edit</x-primary-button>
+                                                    <x-primary-button>Details</x-primary-button>
                                                 </a>
 
-                                                <form action="{{ route('appointment.cancel', $appointment->id) }}" method="POST"
-                                                    onsubmit="return confirm('Are you sure to cancel appointment on {{$appointment->appointment_date->format('d M Y')}}?')">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <x-danger-button class="text-nowrap">Cancel
-                                                        Appointment</x-danger-button>
-                                                </form>
+                                                @if (auth()->user->role == 'customer')
+
+                                                    <form action="{{ route('appointment.cancel', $appointment->id) }}" method="POST"
+                                                        onsubmit="return confirm('Are you sure to cancel appointment on {{$appointment->appointment_date->format('d M Y')}}?')">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <x-danger-button class="text-nowrap">Cancel
+                                                            Appointment</x-danger-button>
+                                                    </form>
+
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
