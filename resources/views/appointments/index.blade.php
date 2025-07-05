@@ -73,7 +73,6 @@
                                                         <x-danger-button class="text-nowrap">Cancel
                                                             Appointment</x-danger-button>
                                                     </form>
-
                                                 @endif
                                             </td>
                                         </tr>
