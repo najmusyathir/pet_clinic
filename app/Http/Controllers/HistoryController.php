@@ -10,12 +10,30 @@ use Illuminate\Http\Request;
 
 class HistoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $histories = auth()->user()->role != "customer" ? Appointment::where('status', 'completed')->get() : Appointment::where("customer_id", auth()->user()->id)->where('status', 'completed')->get();
+        $query = Appointment::query()->where('status', 'Completed');
 
-        return view("history.index", compact('histories'));
+        if (auth()->user()->role === 'customer') {
+            $query->where('customer_id', auth()->id());
+        }
+
+        if ($request->filled('month')) {
+            try {
+                [$year, $month] = explode('-', $request->month);
+                $query->whereYear('appointment_date', $year)
+                    ->whereMonth('appointment_date', $month);
+            } catch (\Exception $e) {
+            }
+        }
+
+        $histories = $query->with(['customer', 'staff', 'pet'])->orderBy('appointment_date', 'desc')->get();
+
+        return view('history.index', compact('histories'));
     }
+
+
+
 
     public function detail($id)
     {
@@ -26,4 +44,6 @@ class HistoryController extends Controller
 
         return view("history.detail", compact('appointment', 'pets', 'staffs', 'services'));
     }
+
+
 }

@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/history', [HistoryController::class, 'index'])->name(name: 'histories');
     Route::get('/history/{id}', [HistoryController::class, 'detail'])->name('history.detail');
+    Route::get('/history/print', [HistoryController::class, 'print'])->name('history.print');
 });
 
 require __DIR__ . '/auth.php';
