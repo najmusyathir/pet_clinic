@@ -70,7 +70,7 @@
                             <x-input-label :value="__('Extra Services')" />
                             <div class="grid grid-cols-3 gap-3">
                                 @foreach ($services as $service)
-                                    <div class='flex items-center gap-3'>
+                                    <div class='flex items-center gap-3  {{ $appointment->service->contains($service->id) ? "" : "hidden" }}'>
                                         <input type="checkbox" name="services[]" id="service_{{ $service->id }}"
                                             value="{{ $service->id }}" {{ $appointment->service->contains($service->id) ? 'checked' : '' }}
                                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring focus:ring-indigo-200" disabled/>
