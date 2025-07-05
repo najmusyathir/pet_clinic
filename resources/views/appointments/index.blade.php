@@ -27,7 +27,9 @@
                             <thead class="bg-gray-100">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">No.</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Customer</th>
+                                    @if (auth()->user()->role != 'customer')
+                                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Customer</th>
+                                    @endif
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Pet</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Staff Handled</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Date</th>
@@ -45,7 +47,9 @@
                                     @foreach ($appointments as $index => $appointment)
                                         <tr>
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $index + 1 }}</td>
-                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $appointment->customer->name }}</td>
+                                            @if (auth()->user()->role != 'customer')
+                                                <td class="px-6 py-4 text-sm text-gray-900">{{ $appointment->customer->name }}</td>
+                                            @endif
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $appointment->pet->type }}</td>
                                             <td class="px-6 py-4 text-sm text-gray-900">
                                                 {{ $appointment->staff_id ? $appointment->staff->name : 'No staff' }}
@@ -59,19 +63,18 @@
                                             </td>
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $appointment->status }}</td>
 
-                                            <td class="px-6 py-4 flex gap-2">
+                                            <td class="px-6 py-4 flex gap-2 flex-wrap">
                                                 <a href="{{ route('appointment.detail', $appointment->id) }}">
                                                     <x-primary-button>Details</x-primary-button>
                                                 </a>
 
-                                                @if (auth()->user->role == 'customer')
+                                                @if (auth()->user()->role == 'customer')
 
                                                     <form action="{{ route('appointment.cancel', $appointment->id) }}" method="POST"
                                                         onsubmit="return confirm('Are you sure to cancel appointment on {{$appointment->appointment_date->format('d M Y')}}?')">
                                                         @csrf
                                                         @method('PUT')
-                                                        <x-danger-button class="text-nowrap">Cancel
-                                                            Appointment</x-danger-button>
+                                                        <x-danger-button class="text-nowrap">Cancel</x-danger-button>
                                                     </form>
                                                 @endif
                                             </td>
