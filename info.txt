@@ -24,17 +24,6 @@ ERD:
 - owner_id (FK → users.id)
 
 
-3. medical_histories
-- id
-- pet_id (FK → pets.id)
-- visit_date
-- symptoms
-- diagnosis
-- treatment
-- vet_notes
-- created_by (FK → users.id)
-- timestamp
-
 4. products_services
 - id
 - name
@@ -49,7 +38,7 @@ ERD:
 - pet_id (FK → pets.id)
 - date
 - time
-- reason
+- remarks
 - status (pending, accepted, rejected)
 =========================================
 - id (PK)
