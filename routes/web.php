@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/appointment/update/{id}', [AppointmentController::class, 'update'])->name('appointment.update');
     Route::put('/appointment/cancel/{id}', [AppointmentController::class, 'cancel'])->name('appointment.cancel');
     Route::delete('/appointment/delete/{id}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
+    Route::get('/receipt/{id}', [AppointmentController::class, 'print'])->name('appointment.print');
 });
 
 // Appointment History related route

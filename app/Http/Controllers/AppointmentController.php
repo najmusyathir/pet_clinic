@@ -104,4 +104,14 @@ class AppointmentController extends Controller
         }
         return redirect()->route('appointments')->with('success', 'Appointment deleted successfully');
     }
+
+    public function print($id)
+    {
+        $appointment = Appointment::with(['customer', 'pet', 'staff', 'service'])->findOrFail($id);
+
+        return view('invoices.index', [
+            'appointment' => $appointment
+        ]);
+    }
+
 }

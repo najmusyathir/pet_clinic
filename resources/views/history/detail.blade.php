@@ -30,7 +30,8 @@
                         <div class="flex-1 flex flex-col">
                             <x-input-label for="staff_id" :value="__('Staff')" />
                             <select name='staff_id' id='staff_id'
-                                class='mt-1 block border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' disabled>
+                                class='mt-1 block border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'
+                                disabled>
                                 <option value=''> No Staff </option>
                                 @if (count($staffs) != 0)
                                     @foreach ($staffs as $staff)
@@ -55,13 +56,14 @@
                             <x-text-input id="appointment_time" class="block mt-1 w-full text-slate-400" type="time"
                                 name="appointment_time"
                                 value="{{ \Carbon\Carbon::parse($appointment->appointment_time)->format('H:i') }}"
-                                step="1800" min="08:00" max="20:00" required disabled/>
+                                step="1800" min="08:00" max="20:00" required disabled />
                         </div>
 
                         <!-- Remarks -->
                         <div class="col-span-2">
                             <x-input-label for="remarks" :value="__('Remarks')" />
-                            <textarea rows="3" id="remarks" class="block mt-1 w-full rounded-lg text-gray-400 p-2 border border-gray-300"
+                            <textarea rows="3" id="remarks"
+                                class="block mt-1 w-full rounded-lg text-gray-400 p-2 border border-gray-300"
                                 name="remarks" disabled>{{ $appointment->remarks }}</textarea>
                         </div>
 
@@ -70,10 +72,12 @@
                             <x-input-label :value="__('Extra Services')" />
                             <div class="grid grid-cols-3 gap-3">
                                 @foreach ($services as $service)
-                                    <div class='flex items-center gap-3  {{ $appointment->service->contains($service->id) ? "" : "hidden" }}'>
+                                    <div
+                                        class='flex items-center gap-3  {{ $appointment->service->contains($service->id) ? "" : "hidden" }}'>
                                         <input type="checkbox" name="services[]" id="service_{{ $service->id }}"
                                             value="{{ $service->id }}" {{ $appointment->service->contains($service->id) ? 'checked' : '' }}
-                                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring focus:ring-indigo-200" disabled/>
+                                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring focus:ring-indigo-200"
+                                            disabled />
                                         <label for="service_{{ $service->id }}">
                                             {{ $service->name }}<br />
                                             <span class="text-sm text-gray-500">(RM
@@ -89,7 +93,8 @@
                             <x-input-label for="status" :value="__('Status')" />
                             @if(in_array(auth()->user()->role, ['staff', 'veterinar']))
                                 <select name="status" id="status"
-                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" disabled>
+                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    disabled>
                                     <option value="Pending" {{ $appointment->status == 'Pending' ? 'selected' : '' }}>Pending
                                     </option>
                                     <option value="Approved" {{ $appointment->status == 'Approved' ? 'selected' : '' }}>
@@ -110,6 +115,11 @@
                             <a href="{{ url()->previous() }}">
                                 <x-secondary-button>
                                     {{ __('Back') }}
+                                </x-secondary-button>
+                            </a>
+                            <a href="{{ route('appointment.print', $appointment->id) }}">
+                                <x-secondary-button>
+                                    {{ __('Print') }}
                                 </x-secondary-button>
                             </a>
                         </div>

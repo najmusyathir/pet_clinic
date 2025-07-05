@@ -127,6 +127,11 @@
                                     {{ __('Cancel') }}
                                 </x-secondary-button>
                             </a>
+                            <a href="{{ route('appointment.print', $appointment->id) }}">
+                                <x-secondary-button>
+                                    {{ __('Print') }}
+                                </x-secondary-button>
+                            </a>
                         </div>
 
 
