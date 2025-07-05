@@ -62,16 +62,26 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id);
 
+        $basePrice = $request->price ?? 0;
+        $selectedServiceIds = $request->input('services', []);
+
+        // Sync services
+        $appointment->service()->sync($selectedServiceIds);
+
+        // Calculate total from selected services
+        $services = Service::whereIn('id', $selectedServiceIds)->get();
+        $serviceTotal = $services->sum('price');
+        $totalPrice = $basePrice + $serviceTotal;
+
         $appointment->update([
             'staff_id' => $request->staff_id,
             'appointment_date' => $request->appointment_date,
             'appointment_time' => $request->appointment_time,
             'remarks' => $request->remarks,
             'status' => $request->status,
+            'price' => $request->price,
+            'total_price' => $totalPrice,
         ]);
-
-        // Sync services if provided
-        $appointment->service()->sync($request->input('services', []));
 
         return redirect()->route('appointments')->with('success', 'Appointment updated successfully.');
     }

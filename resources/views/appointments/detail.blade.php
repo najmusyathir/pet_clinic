@@ -25,7 +25,7 @@
                         <!-- Pet -->
                         <div>
                             <x-input-label for="Pet" :value="__('Pet')" />
-                            <x-text-input class="block mt-1 w-full text-gray-400" type="text" disabled
+                            <x-text-input class="block mt-1 w-full text-gray-400" type="text" name='pet' disabled
                                 value="{{ $appointment->pet->name }}" />
                         </div>
 
@@ -67,6 +67,15 @@
                             <textarea rows="3" id="remarks" class="block mt-1 w-full rounded p-2 border border-gray-300"
                                 name="remarks" required>{{ $appointment->remarks }}</textarea>
                         </div>
+
+                        <!-- Price -->
+                        @if (auth()->user()->role != 'customer')
+                            <div class="col-span-2">
+                                <x-input-label for="price" :value="__('Price')" />
+                                <x-text-input class="block mt-1 w-full text-gray-400 focus:text-black" type="text"
+                                  name='price'  value="{{ $appointment->price }}" />
+                            </div>
+                        @endif
 
                         {{-- Extra Services --}}
                         <div class="flex-1 flex flex-col space-y-3 col-span-2">

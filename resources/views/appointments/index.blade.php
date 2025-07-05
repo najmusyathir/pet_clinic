@@ -36,6 +36,7 @@
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Staff Handled</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Date</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Time</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Bills</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Status</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Action</th>
                                 </tr>
@@ -63,6 +64,7 @@
                                                 {{ $appointment->appointment_time->format('h:i a') }}
                                             </td>
                                             </td>
+                                            <td class="px-6 py-4 text-sm text-gray-900">RM {{ $appointment->total_price ? $appointment->total_price:'-' }}</td>
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $appointment->status }}</td>
 
                                             <td class="px-6 py-4 flex gap-2 flex-wrap">
