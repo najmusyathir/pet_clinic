@@ -12,6 +12,7 @@ class ServicesTableSeeder extends Seeder
      */
     public function run(): void
     {
+        // run this to seed >> php artisan db:seed --class=ServicesTableSeeder
         $services = [
             ['category' => 'General', 'name' => 'Vaccination', 'price' => 35],
             ['category' => 'General', 'name' => 'Flea Medication', 'price' => 22],
