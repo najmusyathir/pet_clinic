@@ -8,7 +8,7 @@ class PetController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role == "veterinar") {
+        if (auth()->user()->role != "customer") {
             $pets = Pet::all();
         } else {
             $pets = Pet::where("owner_id", auth()->user()->id)->get();
