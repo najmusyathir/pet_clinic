@@ -62,7 +62,7 @@
                         <div class="col-span-2">
                             <x-input-label for="remarks" :value="__('Remarks')" />
                             <Textarea rows="3" id="remarks" class="block mt-1 w-full rounded p-2 border border-gray-300"
-                                name="remarks" :value="old('remarks')" required></Textarea>
+                                name="remarks" :value="old('remarks')"></Textarea>
                         </div>
 
                         {{-- Extra Services --}}
