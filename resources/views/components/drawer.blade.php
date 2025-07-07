@@ -5,13 +5,18 @@
         <nav class="py-6 flex flex-col text-[#3b2f63]">
             <a href="{{ route('dashboard') }}"
                 class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Dashboard</a>
-            @if (auth()->user()->role == 'veterinar') <a href="{{ route('users') }}"
+            @if (auth()->user()->role == 'veterinar' || auth()->user()->role == 'staff') <a href="{{ route('users') }}"
                 class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Users</a>
             @endif
 
             <a href="{{ route('pets') }}" class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">
                 {{ auth()->user()->role == 'customer' ? __('My ') : '' }}{{ __('Pets') }}
             </a>
+            @if (auth()->user()->role == 'staff')
+             <a href="{{ route('services') }}"
+                class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Services</a>
+            @endif
+
             <a href="{{ route('appointments') }}"
                 class="p-12 py-3 hover:text-[#261d44] hover:bg-[#b098ff79] transition">Appointments</a>
             <a href="{{ route('histories') }}"

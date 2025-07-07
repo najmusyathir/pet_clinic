@@ -11,7 +11,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        if (auth()->user()->role == 'veterinar') {
+            $users = User::all();
+        } else {
+            $users = User::where('role' ,'customer')->get();
+        }
         return view("users.index", compact('users'));
     }
 
