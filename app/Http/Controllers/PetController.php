@@ -28,7 +28,7 @@ class PetController extends Controller
             'owner_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'birth_date' => 'required|date',
-            'type' => 'required|string|in:cat,dog,bird,others',
+            'type' => 'required|string',
             'gender' => 'required|string|in:male,female',
         ]);
 
@@ -52,7 +52,7 @@ class PetController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'birth_date' => 'required|date',
-            'type' => 'required|string|in:cat,dog,bird,others',
+            'type' => 'required|string',
             'gender' => 'required|string|in:male,female',
         ]);
 

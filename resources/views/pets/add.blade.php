@@ -42,13 +42,25 @@
                                 <x-input-label for="type" :value="__('Type')" />
                                 <select name='type' id='type'
                                     class='mt-1 block border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
-                                    <option value='cat'>Cat
+                                    <option value='DSH'>Domestic Short Hair - DSH
                                     </option>
-                                    <option value='dog'>Dog
+                                    <option value='Maine Coon'>Maine Coon
                                     </option>
-                                    <option value='bird'>Bird
+                                    <option value='Persian'>Persian
                                     </option>
-                                    <option value='others'>Others
+                                    <option value='British Shorthair'>British Shorthair
+                                    </option>
+                                    <option value='Scottish Fold'>Scottish Fold
+                                    </option>
+                                    <option value='Siamese'>Siamese
+                                    </option>
+                                    <option value='Bengal'>Bengal
+                                    </option>
+                                    <option value='Ragdoll'>Ragdoll
+                                    </option>
+                                    <option value='Munchkin'>Munchkin
+                                    </option>
+                                    <option value='kampung'>Kampung Cat - Local Mixed Breed
                                     </option>
                                 </select>
                             </div>

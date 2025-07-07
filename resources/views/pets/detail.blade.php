@@ -42,13 +42,28 @@
                                 <x-input-label for="type" :value="__('Type')" />
                                 <select name='type' id='type'
                                     class='mt-1 block border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
-                                    <option value='cat' {{ $pet->type == 'cat' ? 'selected' : '' }}>Cat
                                     </option>
-                                    <option value='dog' {{ $pet->type == 'dog' ? 'selected' : '' }}>Dog
+                                    <option value='Maine Coon' {{ $pet->type == 'Maine Coon' ? 'selected' : '' }}>Maine
+                                        Coon
                                     </option>
-                                    <option value='bird' {{ $pet->type == 'bird' ? 'selected' : '' }}>Bird
+                                    <option value='Persian' {{ $pet->type == 'Persian' ? 'selected' : '' }}>Persian
                                     </option>
-                                    <option value='others' {{ $pet->type == 'others' ? 'selected' : '' }}>Others
+                                    <option value='BSH' {{ $pet->type == 'BSH' ? 'selected' : '' }}>British Short Hair -
+                                        BSH
+                                    </option>
+                                    <option value='Scottish Fold' {{ $pet->type == 'Scottish Fold' ? 'selected' : '' }}>
+                                        Scottish Fold
+                                    </option>
+                                    <option value='Siamese' {{ $pet->type == 'Siamese' ? 'selected' : '' }}>Siamese
+                                    </option>
+                                    <option value='Bengal' {{ $pet->type == 'Bengal' ? 'selected' : '' }}>Bengal
+                                    </option>
+                                    <option value='Ragdoll' {{ $pet->type == 'Ragdoll' ? 'selected' : '' }}>Ragdoll
+                                    </option>
+                                    <option value='Munchkin' {{ $pet->type == 'Munchkin' ? 'selected' : '' }}>Munchkin
+                                    </option>
+                                    <option value='kampung' {{ $pet->type == 'kampung' ? 'selected' : '' }}>Kampung Cat -
+                                        Local Mixed Breed
                                     </option>
                                 </select>
                             </div>
