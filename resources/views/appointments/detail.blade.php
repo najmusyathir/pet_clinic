@@ -65,7 +65,14 @@
                         <div class="col-span-2">
                             <x-input-label for="remarks" :value="__('Remarks')" />
                             <textarea rows="3" id="remarks" class="block mt-1 w-full rounded p-2 border border-gray-300"
-                                name="remarks" required>{{ $appointment->remarks }}</textarea>
+                                name="remarks">{{ $appointment->remarks }}</textarea>
+                        </div>
+
+                        <!-- Diagnostic -->
+                        <div class="col-span-2">
+                            <x-input-label for="diagnosis" :value="__('Veterinar Diagnostis')" />
+                            <textarea rows="3" id="diagnosis" class="block mt-1 w-full rounded p-2 border border-gray-300 {{auth()->user()->role != 'veterinar' ? 'text-slate-400' : ''}}"
+                                name="diagnosis" {{auth()->user()->role != 'veterinar' ? 'disabled' : ''}}>{{ $appointment->diagnosis }}</textarea>
                         </div>
 
                         <!-- Price -->

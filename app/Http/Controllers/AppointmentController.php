@@ -97,6 +97,7 @@ public function index(Request $request)
             'appointment_time' => $request->appointment_time,
             'remarks' => $request->remarks,
             'status' => $request->status,
+            'diagnosis' => $request->diagnosis,
             'price' => $request->price,
             'total_price' => $totalPrice,
         ]);

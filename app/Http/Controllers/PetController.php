@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Appointment;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 
@@ -42,10 +43,11 @@ class PetController extends Controller
     public function detail($id)
     {
         $pet = Pet::find($id);
-        return view("pets.detail", compact('pet'));
+        $appointments = Appointment::where('pet_id', $id)->get();
+        return view("pets.detail", compact('pet', 'appointments'));
     }
 
-    public function update($id,Request $request)
+    public function update($id, Request $request)
     {
         $pet = Pet::find($id);
         // Validate incoming request data

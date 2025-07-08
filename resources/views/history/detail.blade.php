@@ -67,6 +67,14 @@
                                 name="remarks" disabled>{{ $appointment->remarks }}</textarea>
                         </div>
 
+                        <!-- Diagnostic -->
+                        <div class="col-span-2">
+                            <x-input-label for="diagnosis" :value="__('Veterinar Diagnostic')" />
+                            <textarea rows="3" id="diagnosis"
+                                class="block mt-1 w-full rounded p-2 border border-gray-300 text-slate-400"
+                                name="diagnosis" disabled>{{ $appointment->diagnosis }}</textarea>
+                        </div>
+
                         {{-- Extra Services --}}
                         <div class="flex-1 flex flex-col space-y-3 col-span-2">
                             <x-input-label :value="__('Extra Services')" />

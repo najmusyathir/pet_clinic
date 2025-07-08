@@ -17,6 +17,7 @@ class Appointment extends Model
         'appointment_time',
         'remarks',
         'status',
+        'diagnosis',
         'price',
         'total_price',
     ];
