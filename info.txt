@@ -1,0 +1,125 @@
+use cases:
+1. register acc
+--
+
+
+## =======================================
+
+ERD:
+
+1. users
+- id
+- fullname
+- role (veterinarian, staff, customer)
+- email
+- phone
+- password
+
+2. pets
+- id
+- type
+- name
+- gender
+- birth_date
+- owner_id (FK → users.id)
+
+
+4. products_services
+- id
+- name
+- type (product/service)
+- description
+- price
+- availability
+
+5. appointments
+- id
+- customer_id (FK → users.id)
+- pet_id (FK → pets.id)
+- date
+- time
+- remarks
+- status (pending, accepted, rejected)
+=========================================
+- id (PK)
+- user_id (FK → users)
+- pet_id (FK → pets)
+- appointment_date (DATE)
+- appointment_time (TIME)
+- reason (TEXT or VARCHAR)
+- status (ENUM: pending, accepted, rejected)
+- notes (TEXT) — optional, for vet/staff
+- created_at, updated_at (timestamps)
+
+
+
+6. appointment_services
+- id
+- appointment_id (FK → appointments.id)
+- product_service_id (FK → products_services.id)
+
+7. vaccinations
+- id
+- pet_id (FK → pets.id)
+- vaccine_name
+- date_given
+- next_due_date
+
+
+# ===========================================================
+
+Customer:
+-Register & login ###
+-Manage own profile ###
+-Manage own pets ###
+-View pet’s growth & medical history
+-Book appointments ###
+-View appointment status ###
+-View selected services ###
+
+Vet:
+-Login ###
+-Manage own profile ###
+-View customer info & pets ###
+-Add/edit/delete pet medical history ###
+-View appointments ###
+-Update appointment status (notes - vet diagnosis)
+
+
+Clinic Staff: #
+- Register (admin approved) & login ###
+- Manage own profile ###
+- Manage customer accounts (update/delete) ###
+- Manage services (add/edit/delete)
+- View/manage all appointments ###
+- Approve/reject appointment requests ###
+- Manage pet medical history ###
+- Generate reports (monthly appointments, pet stats, top services) ###
+
+ENTITIES & ACTIONS
+Pets:###
+- Add/edit/delete (by customers) ###
+- View pet profile ###
+- Linked to user ###
+- Linked to appointments ###
+- Track growth data ###
+- Linked to medical records ###
+
+Appointments:###
+-Book (by customer) ###
+-View/manage (by staff & vet) ###
+-Linked to pet & user ###
+-Linked to services ###
+-Set status: pending, accepted, rejected, cancle ###
+-Add vet notes ###
+
+Services: ###
+-Add/edit/delete (staff only) ###
+-Viewable by customers when booking ###
+-Linked to appointments ###
+
+- Reports:
+- Generate reports (by staff)
+- Filter by date
+- Export as PDF ###
+- Track most common treatments ###
