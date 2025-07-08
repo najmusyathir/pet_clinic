@@ -9,17 +9,33 @@ use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-    public function index()
-    {
-        if (auth()->user()->role == "veterinar") {
-            $appointments = Appointment::all();
-        } else {
-            $appointments = Appointment::all();
+public function index(Request $request)
+{
+    $statusFilter = $request->get('status');
 
-            // $appointments = Appointment::where("customer_id", auth()->user()->id)->get();
-        }
-        return view("appointments.index", compact('appointments'));
+    $query = Appointment::query();
+
+    if (auth()->user()->role !== "customer") {
+        $query->when($statusFilter, function ($q) use ($statusFilter) {
+            return $q->where('status', $statusFilter);
+        }, function ($q) {
+            return $q->where('status', '!=', 'Completed');
+        });
+    } else {
+        $query->where("customer_id", auth()->user()->id)
+            ->when($statusFilter, function ($q) use ($statusFilter) {
+                return $q->where('status', $statusFilter);
+            }, function ($q) {
+                return $q->where('status', '!=', 'Completed');
+            });
     }
+
+    $appointments = $query->with(['customer', 'pet', 'staff'])->get();
+
+    return view("appointments.index", compact('appointments', 'statusFilter'));
+}
+
+
 
     public function addPage()
     {
@@ -64,16 +80,27 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id);
 
+        $basePrice = $request->price ?? 0;
+        $selectedServiceIds = $request->input('services', []);
+
+        // Sync services
+        $appointment->service()->sync($selectedServiceIds);
+
+        // Calculate total from selected services
+        $services = Service::whereIn('id', $selectedServiceIds)->get();
+        $serviceTotal = $services->sum('price');
+        $totalPrice = $basePrice + $serviceTotal;
+
         $appointment->update([
             'staff_id' => $request->staff_id,
             'appointment_date' => $request->appointment_date,
             'appointment_time' => $request->appointment_time,
             'remarks' => $request->remarks,
             'status' => $request->status,
+            'diagnosis' => $request->diagnosis,
+            'price' => $request->price,
+            'total_price' => $totalPrice,
         ]);
-
-        // Sync services if provided
-        $appointment->service()->sync($request->input('services', []));
 
         return redirect()->route('appointments')->with('success', 'Appointment updated successfully.');
     }
@@ -96,4 +123,14 @@ class AppointmentController extends Controller
         }
         return redirect()->route('appointments')->with('success', 'Appointment deleted successfully');
     }
+
+    public function print($id)
+    {
+        $appointment = Appointment::with(['customer', 'pet', 'staff', 'service'])->findOrFail($id);
+
+        return view('invoices.index', [
+            'appointment' => $appointment
+        ]);
+    }
+
 }

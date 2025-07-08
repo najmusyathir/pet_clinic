@@ -68,74 +68,58 @@ ERD:
 
 # ===========================================================
 
-USER ROLES
-
 Customer:
-- Register & login #
-- Manage own profile #
-- Manage own pets #
-- View pet’s growth & medical history
-- Book appointments
-- View appointment status
-- View selected services
-- Order products (assumed, not confirmed)
+-Register & login ###
+-Manage own profile ###
+-Manage own pets ###
+-View pet’s growth & medical history
+-Book appointments ###
+-View appointment status ###
+-View selected services ###
 
 Vet:
-- Login #
-- Manage own profile #
-- View customer info & pets #
-- Add/edit/delete pet medical history
-- View appointments
-- Update appointment status (diagnosis, treatment, notes)
+-Login ###
+-Manage own profile ###
+-View customer info & pets ###
+-Add/edit/delete pet medical history ###
+-View appointments ###
+-Update appointment status (notes - vet diagnosis)
 
-Clinic Staff:
-- Register (admin approved) & login #
-- Manage own profile
-- Manage customer accounts (update/delete)
-- Manage products (add/edit/delete)
+
+Clinic Staff: #
+- Register (admin approved) & login ###
+- Manage own profile ###
+- Manage customer accounts (update/delete) ###
 - Manage services (add/edit/delete)
-- View all customers & their pets
-- View/manage all appointments
-- Approve/reject appointment requests
-- Manage pet medical history
-- Handle product orders (if ordering is confirmed)
+- View/manage all appointments ###
+- Approve/reject appointment requests ###
+- Manage pet medical history ###
+- Generate reports (monthly appointments, pet stats, top services) ###
 
 ENTITIES & ACTIONS
+Pets:###
+- Add/edit/delete (by customers) ###
+- View pet profile ###
+- Linked to user ###
+- Linked to appointments ###
+- Track growth data ###
+- Linked to medical records ###
 
-Pets:
-- Add/edit/delete (by customers)
-- View pet profile
-- Linked to user
-- Linked to appointments
-- Track growth data
-- Linked to medical records
+Appointments:###
+-Book (by customer) ###
+-View/manage (by staff & vet) ###
+-Linked to pet & user ###
+-Linked to services ###
+-Set status: pending, accepted, rejected, cancle ###
+-Add vet notes ###
 
-Appointments:
-- Book (by customer)
-- View/manage (by staff & vet)
-- Linked to pet & user
-- Linked to services
-- Set status: pending, accepted, rejected
-- Add vet notes
+Services: ###
+-Add/edit/delete (staff only) ###
+-Viewable by customers when booking ###
+-Linked to appointments ###
 
-Services:
-- Add/edit/delete (staff only)
-- Viewable by customers when booking
-- Linked to appointments
-
-Products:
-- Add/edit/delete (staff only)
-- Viewable to customers
-- Can be ordered (assumed)
-- Linked to orders (if implemented)
-
-Orders (not confirmed in proposal):
-- Place product order (customer)
-- View/manage orders (staff)
-- Track status (optional)
-
-NOTE:
-- Ordering flow is not defined in client proposal.
-- Recommend confirming if product purchase feature is needed.
-
-
+- Reports:
+- Generate reports (by staff)
+- Filter by date
+- Export as PDF ###
+- Track most common treatments ###

@@ -14,24 +14,46 @@
                     {{ auth()->user()->role == 'customer' ? __('My ') : '' }}{{ __('Appointments') }}
                 </h2>
 
-                <a href="{{route('appointment.add')}}">
-                    <x-primary-button>Add Appointment</x-primary-button>
-                </a>
+                @if (auth()->user()->role == 'customer')
+                    <a href="{{ route('appointment.add') }}">
+                        <x-primary-button>Add Appointment</x-primary-button>
+                    </a>
+                @endif
             </div>
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 space-y-5">
 
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                {{-- Tabs for Status --}}
+                <div class="border-b border-gray-200 px-6 pt-4 print:hidden">
+                    <nav class="-mb-px flex space-x-6">
+                        @php
+                            $statuses = ['All', 'Pending', 'Approved', 'Completed', 'Cancelled'];
+                            $currentStatus = request()->get('status', 'All');
+                        @endphp
+
+                        @foreach ($statuses as $status)
+                            <a href="{{ route('appointments', ['status' => $status != 'All' ? $status : null]) }}"
+                                class="whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm {{ $currentStatus == $status ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
+                                {{ $status }}
+                            </a>
+                        @endforeach
+                    </nav>
+                </div>
+
+                <div class="p-6 text-gray-900 space-y-5">
                     <div class="overflow-x-auto">
                         <table
                             class="min-w-full border border-gray-200 divide-y divide-gray-200 shadow-sm rounded-lg py-1">
                             <thead class="bg-gray-100">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">No.</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Customer</th>
+                                    @if (auth()->user()->role != 'customer')
+                                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Customer</th>
+                                    @endif
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Pet</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Staff Handled</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Date</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Time</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Bills</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Status</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Action</th>
                                 </tr>
@@ -39,13 +61,15 @@
                             <tbody class="bg-white divide-y divide-gray-100">
                                 @if (count($appointments) == 0)
                                     <tr>
-                                        <td colspan="6" class="p-6 text-center">No Appointment Found.</td>
+                                        <td colspan="9" class="p-6 text-center">No Appointment Found.</td>
                                     </tr>
                                 @else
                                     @foreach ($appointments as $index => $appointment)
                                         <tr>
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $index + 1 }}</td>
-                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $appointment->customer->name }}</td>
+                                            @if (auth()->user()->role != 'customer')
+                                                <td class="px-6 py-4 text-sm text-gray-900">{{ $appointment->customer->name }}</td>
+                                            @endif
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $appointment->pet->type }}</td>
                                             <td class="px-6 py-4 text-sm text-gray-900">
                                                 {{ $appointment->staff_id ? $appointment->staff->name : 'No staff' }}
@@ -56,35 +80,34 @@
                                             <td class="px-6 py-4 text-sm text-gray-900">
                                                 {{ $appointment->appointment_time->format('h:i a') }}
                                             </td>
+                                            <td class="px-6 py-4 text-sm text-gray-900">
+                                                RM
+                                                {{ $appointment->total_price ? number_format($appointment->total_price, 2) : '-' }}
                                             </td>
                                             <td class="px-6 py-4 text-sm text-gray-900">{{ $appointment->status }}</td>
-
-                                            <td class="px-6 py-4 flex gap-2">
+                                            <td class="px-6 py-4 flex gap-2 flex-wrap">
                                                 <a href="{{ route('appointment.detail', $appointment->id) }}">
                                                     <x-primary-button>Details</x-primary-button>
                                                 </a>
 
-                                                @if (auth()->user->role == 'customer')
-
+                                                @if (auth()->user()->role == 'customer')
                                                     <form action="{{ route('appointment.cancel', $appointment->id) }}" method="POST"
-                                                        onsubmit="return confirm('Are you sure to cancel appointment on {{$appointment->appointment_date->format('d M Y')}}?')">
+                                                        onsubmit="return confirm('Are you sure to cancel appointment on {{ $appointment->appointment_date->format('d M Y') }}?')">
                                                         @csrf
                                                         @method('PUT')
-                                                        <x-danger-button class="text-nowrap">Cancel
-                                                            Appointment</x-danger-button>
+                                                        <x-danger-button class="text-nowrap">Cancel</x-danger-button>
                                                     </form>
                                                 @endif
                                             </td>
                                         </tr>
                                     @endforeach
-
                                 @endif
                             </tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
 </x-app-layout>

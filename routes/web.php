@@ -5,14 +5,19 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ServiceController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+use App\Http\Controllers\DashboardController;
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -48,6 +53,24 @@ Route::middleware('auth')->group(function () {
     Route::put('/appointment/update/{id}', [AppointmentController::class, 'update'])->name('appointment.update');
     Route::put('/appointment/cancel/{id}', [AppointmentController::class, 'cancel'])->name('appointment.cancel');
     Route::delete('/appointment/delete/{id}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
+    Route::get('/receipt/{id}', [AppointmentController::class, 'print'])->name('appointment.print');
+});
+
+// Appointment History related route
+Route::middleware('auth')->group(function () {
+    Route::get('/history', [HistoryController::class, 'index'])->name(name: 'histories');
+    Route::get('/history/{id}', [HistoryController::class, 'detail'])->name('history.detail');
+    Route::get('/history/print', [HistoryController::class, 'print'])->name('history.print');
+});
+
+// Services related route
+Route::middleware('auth')->group(function () {
+    Route::get('/service', [ServiceController::class, 'index'])->name(name: 'services');
+    Route::get('/service/add', [ServiceController::class, 'addPage'])->name('service.add');
+    Route::post('/service/create', [ServiceController::class, 'create'])->name('service.create');
+    Route::get('/service/details/{id}', [ServiceController::class, 'detail'])->name('service.detail');
+    Route::put('/service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
+    Route::delete('/service/delete/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
 });
 
 require __DIR__ . '/auth.php';

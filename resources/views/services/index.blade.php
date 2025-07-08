@@ -11,38 +11,46 @@
         <div class="max-w-7xl space-y-6 mx-auto sm:px-6 lg:px-8">
             <div class="flex gap-3">
                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-                    List of All Users
+                    {{ __('Services') }}
                 </h2>
+                <a href="{{route('service.add')}}">
+                    <x-primary-button>Add Service</x-primary-button>
+                </a>
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="p-6 text-gray-900 space-y-5">
+
                     <div class="overflow-x-auto">
                         <table
                             class="min-w-full border border-gray-200 divide-y divide-gray-200 shadow-sm rounded-lg py-1">
-
                             <thead class="bg-gray-100">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Full Name</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Email</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Role</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Phone Number</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">No.</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Category</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Name</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Price</th>
                                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-100">
-                                @foreach ($users as $user)
-                                    @if ($user->id != auth()->user()->id)
+                                @if (count($services) == 0)
+                                    <tr>
+                                        <td colspan="6" class="p-6 text-center">No Pet Found.</td>
+                                    </tr>
+                                @else
+                                    @foreach ($services as $index => $service)
                                         <tr>
-                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $user->name }}</td>
-                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $user->email }}</td>
-                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $user->role }}</td>
-                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $user->phone }}</td>
-                                            <td class="px-6 py-4 flex gap-3 flex-wrap">
-                                                <a href="{{ route('user.detail', $user->id) }}">
+                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $index + 1 }}</td>
+                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $service->category }}</td>
+                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $service->name }}</td>
+                                            <td class="px-6 py-4 text-sm text-gray-900">{{ $service->price }}</td>
+                                            </td>
+                                            <td class="px-6 py-4 flex gap-3">
+                                                <a href="{{ route('service.detail', $service->id) }}">
                                                     <x-primary-button>Edit</x-primary-button>
                                                 </a>
 
-                                                <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                                                <form action="{{ route('service.destroy', $service->id) }}" method="POST"
                                                     onsubmit="return confirm('Are you sure?')">
                                                     @csrf
                                                     @method('DELETE')
@@ -50,8 +58,9 @@
                                                 </form>
                                             </td>
                                         </tr>
-                                    @endif
-                                @endforeach
+                                    @endforeach
+
+                                @endif
                             </tbody>
                         </table>
                     </div>

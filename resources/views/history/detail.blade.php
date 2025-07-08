@@ -9,10 +9,7 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 max-w-4xl">
-                    <form method="POST" action="{{ route('appointment.update', $appointment->id) }}"
-                        class="grid grid-cols-2 gap-6">
-                        @csrf
-                        @method('PUT')
+                    <form class="grid grid-cols-2 gap-6">
 
                         <!-- Customer -->
                         <div>
@@ -25,15 +22,16 @@
                         <!-- Pet -->
                         <div>
                             <x-input-label for="Pet" :value="__('Pet')" />
-                            <x-text-input class="block mt-1 w-full text-gray-400" type="text" name='pet' disabled
+                            <x-text-input class="block mt-1 w-full text-gray-400" type="text" disabled
                                 value="{{ $appointment->pet->name }}" />
                         </div>
 
                         <!-- Staff -->
-                        <div class="flex-1 flex flex-col {{ auth()->user()->role == 'customer' ? 'hidden' : ''}}">
+                        <div class="flex-1 flex flex-col">
                             <x-input-label for="staff_id" :value="__('Staff')" />
                             <select name='staff_id' id='staff_id'
-                                class='mt-1 block border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                                class='mt-1 block border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'
+                                disabled>
                                 <option value=''> No Staff </option>
                                 @if (count($staffs) != 0)
                                     @foreach ($staffs as $staff)
@@ -47,52 +45,47 @@
                         <!-- Appointment Date -->
                         <div>
                             <x-input-label for="appointment_date" :value="__('Appointment Date')" />
-                            <x-text-input id="appointment_date" class="block mt-1 w-full" type="date"
+                            <x-text-input id="appointment_date" class="block mt-1 w-full text-slate-400" type="date"
                                 name="appointment_date" value="{{ $appointment->appointment_date->format('Y-m-d') }}"
-                                required />
+                                disabled />
                         </div>
 
                         <!-- Appointment Time -->
                         <div>
                             <x-input-label for="appointment_time" :value="__('Appointment Time')" />
-                            <x-text-input id="appointment_time" class="block mt-1 w-full" type="time"
+                            <x-text-input id="appointment_time" class="block mt-1 w-full text-slate-400" type="time"
                                 name="appointment_time"
                                 value="{{ \Carbon\Carbon::parse($appointment->appointment_time)->format('H:i') }}"
-                                step="1800" min="08:00" max="20:00" required />
+                                step="1800" min="08:00" max="20:00" required disabled />
                         </div>
 
                         <!-- Remarks -->
                         <div class="col-span-2">
                             <x-input-label for="remarks" :value="__('Remarks')" />
-                            <textarea rows="3" id="remarks" class="block mt-1 w-full rounded p-2 border border-gray-300"
-                                name="remarks">{{ $appointment->remarks }}</textarea>
+                            <textarea rows="3" id="remarks"
+                                class="block mt-1 w-full rounded-lg text-gray-400 p-2 border border-gray-300"
+                                name="remarks" disabled>{{ $appointment->remarks }}</textarea>
                         </div>
 
                         <!-- Diagnostic -->
                         <div class="col-span-2">
-                            <x-input-label for="diagnosis" :value="__('Veterinar Diagnostis')" />
-                            <textarea rows="3" id="diagnosis" class="block mt-1 w-full rounded p-2 border border-gray-300 {{auth()->user()->role != 'veterinar' ? 'text-slate-400' : ''}}"
-                                name="diagnosis" {{auth()->user()->role != 'veterinar' ? 'disabled' : ''}}>{{ $appointment->diagnosis }}</textarea>
+                            <x-input-label for="diagnosis" :value="__('Veterinar Diagnostic')" />
+                            <textarea rows="3" id="diagnosis"
+                                class="block mt-1 w-full rounded p-2 border border-gray-300 text-slate-400"
+                                name="diagnosis" disabled>{{ $appointment->diagnosis }}</textarea>
                         </div>
-
-                        <!-- Price -->
-                        @if (auth()->user()->role != 'customer')
-                            <div class="col-span-2">
-                                <x-input-label for="price" :value="__('Price')" />
-                                <x-text-input class="block mt-1 w-full text-gray-400 focus:text-black" type="text"
-                                  name='price'  value="{{ $appointment->price }}" />
-                            </div>
-                        @endif
 
                         {{-- Extra Services --}}
                         <div class="flex-1 flex flex-col space-y-3 col-span-2">
                             <x-input-label :value="__('Extra Services')" />
                             <div class="grid grid-cols-3 gap-3">
                                 @foreach ($services as $service)
-                                    <div class='flex items-center gap-3'>
+                                    <div
+                                        class='flex items-center gap-3  {{ $appointment->service->contains($service->id) ? "" : "hidden" }}'>
                                         <input type="checkbox" name="services[]" id="service_{{ $service->id }}"
                                             value="{{ $service->id }}" {{ $appointment->service->contains($service->id) ? 'checked' : '' }}
-                                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring focus:ring-indigo-200" />
+                                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring focus:ring-indigo-200"
+                                            disabled />
                                         <label for="service_{{ $service->id }}">
                                             {{ $service->name }}<br />
                                             <span class="text-sm text-gray-500">(RM
@@ -108,7 +101,8 @@
                             <x-input-label for="status" :value="__('Status')" />
                             @if(in_array(auth()->user()->role, ['staff', 'veterinar']))
                                 <select name="status" id="status"
-                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    disabled>
                                     <option value="Pending" {{ $appointment->status == 'Pending' ? 'selected' : '' }}>Pending
                                     </option>
                                     <option value="Approved" {{ $appointment->status == 'Approved' ? 'selected' : '' }}>
@@ -126,12 +120,9 @@
                         </div>
 
                         <div class="flex gap-2 items-center">
-                            <x-primary-button>
-                                {{ __('Update') }}
-                            </x-primary-button>
                             <a href="{{ url()->previous() }}">
                                 <x-secondary-button>
-                                    {{ __('Cancel') }}
+                                    {{ __('Back') }}
                                 </x-secondary-button>
                             </a>
                             <a href="{{ route('appointment.print', $appointment->id) }}">

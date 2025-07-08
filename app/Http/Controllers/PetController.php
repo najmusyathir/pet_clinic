@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Appointment;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 
@@ -8,7 +9,7 @@ class PetController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role == "veterinar") {
+        if (auth()->user()->role != "customer") {
             $pets = Pet::all();
         } else {
             $pets = Pet::where("owner_id", auth()->user()->id)->get();
@@ -28,7 +29,7 @@ class PetController extends Controller
             'owner_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'birth_date' => 'required|date',
-            'type' => 'required|string|in:cat,dog,bird,others',
+            'type' => 'required|string',
             'gender' => 'required|string|in:male,female',
         ]);
 
@@ -42,17 +43,18 @@ class PetController extends Controller
     public function detail($id)
     {
         $pet = Pet::find($id);
-        return view("pets.detail", compact('pet'));
+        $appointments = Appointment::where('pet_id', $id)->get();
+        return view("pets.detail", compact('pet', 'appointments'));
     }
 
-    public function update($id,Request $request)
+    public function update($id, Request $request)
     {
         $pet = Pet::find($id);
         // Validate incoming request data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'birth_date' => 'required|date',
-            'type' => 'required|string|in:cat,dog,bird,others',
+            'type' => 'required|string',
             'gender' => 'required|string|in:male,female',
         ]);
 

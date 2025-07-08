@@ -11,7 +11,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        if (auth()->user()->role == 'veterinar') {
+            $users = User::all();
+        } else {
+            $users = User::where('role' ,'customer')->get();
+        }
         return view("users.index", compact('users'));
     }
 
@@ -29,7 +33,7 @@ class UserController extends Controller
             'role' => $request->role
         ]);
 
-        return redirect()->route('users')->with('success', '');
+        return redirect()->route('users')->with('success', 'Success update user\'s role');
     }
 
     public function destroy($id)
@@ -38,7 +42,7 @@ class UserController extends Controller
         if ($user) {
             $user->delete();
         }
-        return redirect()->route('users')->with('success', '');
+        return redirect()->route('users')->with('success', 'Success remove user from system');
     }
 
     public function resetPassword($id)
