@@ -32,6 +32,21 @@
                     <canvas id="appointmentChart"></canvas>
                 </div>
 
+                {{-- Service Usage Grid --}}
+                @if (!empty($serviceStats))
+                    <div class="bg-white p-6 shadow rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800">Service Usage Summary</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+                            @foreach ($serviceStats as $service)
+                                <div class="bg-indigo-50 rounded-lg p-4 shadow text-center">
+                                    <p class="text-sm text-gray-600 font-medium">{{ $service['name'] }}</p>
+                                    <p class="text-xl font-bold text-indigo-700">{{ $service['count'] }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
                 {{-- Services Table --}}
                 <div class="bg-white shadow rounded-lg p-6">
                     <h3 class="text-lg font-medium mb-4">Service Revenue Breakdown</h3>

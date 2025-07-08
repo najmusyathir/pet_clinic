@@ -20,6 +20,42 @@
                 </form>
             </div>
 
+            {{-- Stats Overview --}}
+            @if (auth()->user()->role != 'customer')
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white shadow rounded-lg p-4">
+                        <h3 class="text-gray-600 text-sm">Total Appointments</h3>
+                        <p class="text-2xl font-bold">{{ $totalAppointments }}</p>
+                    </div>
+                    <div class="bg-white shadow rounded-lg p-4">
+                        <h3 class="text-gray-600 text-sm">Total Revenue</h3>
+                        <p class="text-xs text-gray-500 mb-1">Includes treatment fees + services</p>
+                        <p class="text-2xl font-bold">RM {{ number_format($totalRevenue, 2) }}</p>
+                    </div>
+                    <div class="bg-white shadow rounded-lg p-4">
+                        <h3 class="text-gray-600 text-sm">Most Popular Service</h3>
+                        <p class="text-2xl font-bold">{{ $popularService }}</p>
+                    </div>
+                </div>
+
+                {{-- Service Usage Grid --}}
+                @if (!empty($serviceStats))
+                    <div class="bg-white p-6 shadow rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800">Service Usage Summary</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+                            @foreach ($serviceStats as $service)
+                                <div class="bg-indigo-50 rounded-lg p-4 shadow text-center">
+                                    <p class="text-sm text-gray-600 font-medium">{{ $service['name'] }}</p>
+                                    <p class="text-xl font-bold text-indigo-700">{{ $service['count'] }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+
+            @endif
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 space-y-5">
                     <div class="overflow-x-auto">

@@ -24,16 +24,53 @@ class HistoryController extends Controller
                 $query->whereYear('appointment_date', $year)
                     ->whereMonth('appointment_date', $month);
             } catch (\Exception $e) {
+                // Invalid format fallback
             }
         }
 
-        $histories = $query->with(['customer', 'staff', 'pet'])->orderBy('appointment_date', 'desc')->get();
+        $histories = $query->with(['customer', 'staff', 'pet', 'service'])
+            ->orderBy('appointment_date', 'desc')
+            ->get();
 
-        return view('history.index', compact('histories'));
+        $totalAppointments = $histories->count();
+        $totalRevenue = $histories->sum('price');
+        $allServices = Service::all();
+        $serviceCounts = [];
+
+        foreach ($allServices as $service) {
+            $serviceCounts[$service->name] = [
+                'name' => $service->name,
+                'count' => 0,
+                'revenue' => 0,
+            ];
+        }
+
+        foreach ($histories as $appointment) {
+            foreach ($appointment->service as $s) {
+                $serviceCounts[$s->name]['count']++;
+                $serviceCounts[$s->name]['revenue'] += $s->price ?? 0;
+            }
+        }
+
+        $monthlyStats = $query->selectRaw('MONTH(appointment_date) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $chartLabels = $monthlyStats->pluck('month')->map(fn($m) => date("F", mktime(0, 0, 0, $m, 10)));
+        $chartData = $monthlyStats->pluck('count');
+
+        return view('history.index', [
+            'histories' => $histories,
+            'totalAppointments' => $totalAppointments,
+            'totalRevenue' => $totalRevenue,
+            'popularService' => collect($serviceCounts)->sortByDesc('count')->first()['name'] ?? '-',
+            'serviceStats' => collect($serviceCounts)->sortByDesc('count')->values()->all(),
+
+            'chartLabels' => $chartLabels,
+            'chartData' => $chartData,
+        ]);
     }
-
-
-
 
     public function detail($id)
     {

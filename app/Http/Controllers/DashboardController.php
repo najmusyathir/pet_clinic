@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Pet;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -28,20 +29,20 @@ class DashboardController extends Controller
 
         $totalAppointments = $appointments->count();
         $totalRevenue = $appointments->sum('price'); // Treatment price total
+
+        $allServices = Service::all();
         $serviceCounts = [];
+
+        foreach ($allServices as $service) {
+            $serviceCounts[$service->name] = [
+                'name' => $service->name,
+                'count' => 0,
+                'revenue' => 0,
+            ];
+        }
 
         foreach ($appointments as $appointment) {
             foreach ($appointment->service as $s) {
-                $totalRevenue += $s->price ?? 0;
-
-                if (!isset($serviceCounts[$s->name])) {
-                    $serviceCounts[$s->name] = [
-                        'name' => $s->name,
-                        'count' => 0,
-                        'revenue' => 0,
-                    ];
-                }
-
                 $serviceCounts[$s->name]['count']++;
                 $serviceCounts[$s->name]['revenue'] += $s->price ?? 0;
             }
@@ -59,7 +60,8 @@ class DashboardController extends Controller
             'totalAppointments' => $totalAppointments,
             'totalRevenue' => $totalRevenue,
             'popularService' => collect($serviceCounts)->sortByDesc('count')->first()['name'] ?? '-',
-            'serviceStats' => array_values($serviceCounts),
+            'serviceStats' => collect($serviceCounts)->sortByDesc('count')->values()->all(),
+
             'chartLabels' => $chartLabels,
             'chartData' => $chartData,
         ]);
